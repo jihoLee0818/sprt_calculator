@@ -2,12 +2,13 @@ package org.example.lv3;
 
 import org.example.lv3.Calculator;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
 
-        Calculator<Double> doubleCalculator = new Calculator();
+        Calculator Calculator = new Calculator();
 
         Scanner sc = new Scanner(System.in);
 
@@ -39,7 +40,7 @@ public class App {
                         default:
                             throw new IllegalArgumentException("잘못된 연산 기호입니다.");
                 }
-                double result = doubleCalculator.calculate(a, b, operatorType);
+                double result = Calculator.calculate(a, b, operatorType);
                 System.out.println("결과: " + result);
 
             } catch (IllegalArgumentException e) {
@@ -56,8 +57,16 @@ public class App {
                     shouldExitMainLoop = true;
                     break;
                 } else if (command.equalsIgnoreCase("remove")) {
-                    doubleCalculator.removeFirstResult();
+                    Calculator.removeFirstResult();
                     System.out.println("가장 오래된 결과가 삭제되었습니다.");
+                } else if (command.equalsIgnoreCase("inquiry")){
+                    System.out.println("기준 값을 입력하세요.");
+                    double criteria = sc.nextDouble();
+                    List<Double> inquiryResults = Calculator.inquiryGreaterThan(criteria);
+                    System.out.println("--- 조회 결과 ---");
+                    for (double res : inquiryResults) {
+                        System.out.println(res);
+                    }
                 } else {
                     break;
                 }
@@ -69,7 +78,7 @@ public class App {
         }
 
         System.out.println("\n--- 모든 계산 결과 ---");
-        for (double res : doubleCalculator.getResults()) {
+        for (double res : Calculator.getResults()) {
             System.out.println(res);
         }
         System.out.println("----------------------");
